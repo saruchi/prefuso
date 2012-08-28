@@ -18,6 +18,11 @@ public class GraphGMLReader extends AbstractGraphReader  implements GraphReader 
 	{
 		Graph graph=null;
 		BufferedReader in;
+		int f=0;
+		if(file.equals("polblogs.gml")){
+			f=1;
+		}
+		
 		try {
 			in = new BufferedReader(new FileReader(file));
 			String t, column="";
@@ -59,7 +64,7 @@ public class GraphGMLReader extends AbstractGraphReader  implements GraphReader 
 							else
 							{
 								graph.addColumn(column, Integer.class);
-								n.set(column, Integer.parseInt(t.substring(index+1,t.length())));
+								n.set(column, Integer.parseInt(t.substring(index+1,t.length()))-f);
 							}
 							t = in.readLine();
 						}
@@ -81,7 +86,7 @@ public class GraphGMLReader extends AbstractGraphReader  implements GraphReader 
 							else
 							{
 								//System.out.println(t.substring(index+1,t.length()));
-								n.set(column, Integer.parseInt(t.substring(index+1,t.length())));
+								n.set(column, Integer.parseInt(t.substring(index+1,t.length()))-f);
 							}
 							t = in.readLine();
 						}
@@ -94,7 +99,8 @@ public class GraphGMLReader extends AbstractGraphReader  implements GraphReader 
 					source = Integer.parseInt(t.substring(11,t.length()));
 					t = in.readLine();
 					target = Integer.parseInt(t.substring(11,t.length()));
-					graph.addEdge(source,target);
+					//System.out.println(source + "+"+target);
+					graph.addEdge(source-f,target-f);
 					in.readLine();
 				}	
 				t=in.readLine();
